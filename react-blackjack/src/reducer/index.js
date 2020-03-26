@@ -1,6 +1,7 @@
-const initialState = [
-    {}
-];
+const initialState = {
+    
+}
+;
 
 
 export const cardReducer = (state = initialState,action) =>{
