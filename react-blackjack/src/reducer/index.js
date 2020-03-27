@@ -1,14 +1,9 @@
-const initialState = {
-    
-}
-;
+import { combineReducers } from "redux";
+import { deckReducer } from "./deckReducer";
+import { cardReducer } from "./cardReducer";
 
 
-export const cardReducer = (state = initialState,action) =>{
-
-    switch(action.type){
-
-        default:
-            return state;
-    }
-};
+export const rootReducer = combineReducers({
+    deckReducer,
+    cardReducer
+});
