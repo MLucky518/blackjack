@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from "react-redux";
 
-function Card() {
+function Card(props) {
     return (
         <div>
-            <h1>Card</h1>
+            <img src = {props.src}/>
         </div>
     )
 }
 
-export default connect(mapStateToProps,{})(Card)
+export default connect(null,{})(Card)
