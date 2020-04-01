@@ -6,16 +6,9 @@ import GameBoard from "./components/GameBoard";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
-  useEffect(() => {
-    axios
-      .get("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
+
+ 
+ 
 
   return (
     <Router>
