@@ -1,8 +1,7 @@
 import axios from "axios";
 
 export const FETCHING_DECK_SUCCESS = "FETCHING_DECK_SUCCESS";
-export const DRAW_CARD = "DRAW_CARD";
-export const DRAW_DEALER = "DRAW_DEALER";
+export const DEAL = "DEAL";
 
 export const fetchDeck = () => dispatch => {
   axios
@@ -16,26 +15,38 @@ export const fetchDeck = () => dispatch => {
     });
 };
 
-export const drawCard = id => dispatch => {
+export const deal = id => dispatch =>{
   axios
-    .get(`https://deckofcardsapi.com/api/deck/${id}/draw/?count=2`)
+    .get(`https://deckofcardsapi.com/api/deck/${id}/draw/?count=4`)
     .then(res => {
       console.log(res);
-      dispatch({ type: DRAW_CARD, payload: res.data.cards });
+      dispatch({ type: DEAL, payload: res.data.cards });
     })
     .catch(err => {
       console.log("no card for you", err);
     });
 };
 
-export const drawDealer = id => dispatch => {
-  axios
-    .get(`https://deckofcardsapi.com/api/deck/${id}/draw/?count=2`)
-    .then(res => {
-      console.log(res);
-      dispatch({ type: DRAW_DEALER, payload: res.data.cards });
-    })
-    .catch(err => {
-      console.log("no card for you", err);
-    });
-};
+// export const drawCard = id => dispatch => {
+//   axios
+//     .get(`https://deckofcardsapi.com/api/deck/${id}/draw/?count=2`)
+//     .then(res => {
+//       console.log(res);
+//       dispatch({ type: DRAW_CARD, payload: res.data.cards });
+//     })
+//     .catch(err => {
+//       console.log("no card for you", err);
+//     });
+// };
+
+// export const drawDealer = id => dispatch => {
+//   axios
+//     .get(`https://deckofcardsapi.com/api/deck/${id}/draw/?count=2`)
+//     .then(res => {
+//       console.log(res);
+//       dispatch({ type: DRAW_DEALER, payload: res.data.cards });
+//     })
+//     .catch(err => {
+//       console.log("no card for you", err);
+//     });
+// };
