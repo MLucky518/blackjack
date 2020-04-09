@@ -15,6 +15,7 @@ const initialState = {
   gameStatus: gameState.PLAYING,
 };
 
+//Hell yeah VVVV
 export const parseScores = (cards) => {
   const updatedScore = cards.map((item) => {
     if (item.value === "QUEEN") {
@@ -35,6 +36,7 @@ export const parseScores = (cards) => {
   );
   return updatedScore.reduce((a, b) => a + b, 0);
 };
+//Hell yeah ^^^
 
 export const gameReducer = (state = initialState, action) => {
   switch (action.type) {
