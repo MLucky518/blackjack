@@ -1,10 +1,10 @@
 // TODO modify actions to fit new game logic
-import { DEAL, PLAYER_HIT, DEALER_HIT, CHECK_SCORE } from "../actions/index";
+import { DEAL, HIT } from "../actions/index";
 
 export const gameState = {
   PLAYING: "Currently Playing",
   WIN: "YOU WON!!!",
-  LOSE: "YOU LOST!",
+  LOSE: "YOU LOST!"
 };
 
 const initialState = {
@@ -12,28 +12,7 @@ const initialState = {
   dealerScore: 0,
   playerHand: [],
   playerScore: 0,
-  gameStatus: gameState.PLAYING,
-};
-
-export const parseScores = (cards) => {
-  const updatedScore = cards.map((item) => {
-    if (item.value === "QUEEN") {
-      return 10;
-    } else if (item.value === "KING") {
-      return 10;
-    } else if (item.value === "JACK") {
-      return 10;
-    } else if (item.value === "ACE") {
-      return 11;
-    } else {
-      return parseInt(item.value);
-    }
-  });
-  console.log(
-    "SCORE: ",
-    updatedScore.reduce((a, b) => a + b, 0)
-  );
-  return updatedScore.reduce((a, b) => a + b, 0);
+  gameStatus: gameState.PLAYING
 };
 
 export const gameReducer = (state = initialState, action) => {
@@ -45,33 +24,10 @@ export const gameReducer = (state = initialState, action) => {
         ...state,
         playerHand: [playerCard1, playerCard2],
         dealerHand: [dealerCard1, dealerCard2],
-        gameStatus: gameState.PLAYING,
+        gameStatus: gameState.PLAYING
       };
-    case PLAYER_HIT:
-      return {
-        ...state,
-        playerHand: [...state.playerHand, action.payload],
-      };
-    case DEALER_HIT:
-      return {
-        ...state,
-        dealerHand: [...state.dealerHand, action.payload],
-      };
-    case "OUTCOME":
-      const calculateStatus = () => {
-        if (state.playerScore === 21) return gameState.WIN;
-        if (state.playerScore > 21) return gameState.LOSE;
-        if (state.dealerScore > 21) return gameState.WIN;
-        if (state.playerScore >= state.dealerScore) return gameState.WIN;
-        if (state.playerScore < state.dealerScore) return gameState.LOSE;
-        return gameState.PLAYING;
-      };
-    case CHECK_SCORE:
-      return {
-        ...state,
-        playerScore: state.playerScore + parseScores(state.playerHand),
-        dealerScore: state.dealerScore + parseScores(state.dealerHand),
-      };
+
+    case HIT:
 
     default:
       return state;
