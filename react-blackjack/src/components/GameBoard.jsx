@@ -1,31 +1,56 @@
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { fetchDeck, drawCard, drawDealer } from "../actions/index";
 import { connect } from "react-redux";
 import Card from "./Card";
 
-function GameBoard({ fetchDeck, drawCard,drawDealer, success, deck_id, shuffled, remaining,cards,dealerCards }) {
- 
-const [playerScore,setPlayerScore] = useState();
-const [dealerScore,setDealerScore] = useState();
+function GameBoard({
+  fetchDeck,
+  drawCard,
+  drawDealer,
+  success,
+  deck_id,
+  shuffled,
+  remaining,
+  cards,
+  dealerCards
+}) {
+  const [playerScore, setPlayerScore] = useState(0);
+  const [dealerScore, setDealerScore] = useState(0);
 
+  const dealHand = () => {
+    drawCard(deck_id);
+    drawDealer(deck_id);
+    // parseCardValue(cards);
+    // parseCardValue(dealerCards);
 
- const dealHand = () =>{
-   
-  drawCard(deck_id);
-  drawDealer(deck_id);
-  
-}
+    // console.log("Parse 1", parseCardValue(cards));
+    // console.log("Parse 2", parseCardValue(dealerCards));
+  };
 
+  const reducerFunction = (accumulator, currentValue) =>
+    accumulator + currentValue;
 
-  useEffect(() =>{
-   
+  const parseCardValue = item => {
+    switch (item.value) {
+      case "QUEEN":
+        item.value = "10";
+        break;
+      case "KING":
+        item.value = "10";
+      case "JACK":
+        item.value = "10";
+      default:
+        return item.value;
+    }
+    console.log("values", item);
+    return parseInt(item);
+  };
+
+  useEffect(() => {
     console.log(cards);
-    
-   
-  },[]);
-
-
- 
+    // console.log("Parse 1", parseCardValue(cards && cards));
+    // console.log("Parse 2", parseCardValue(dealerCards && dealerCards));
+  }, []);
 
   return (
     <div>
@@ -34,14 +59,16 @@ const [dealerScore,setDealerScore] = useState();
       <p>{deck_id}</p>
       <p>{shuffled}</p>
       <p>{remaining}</p>
-      <button onClick ={()=> dealHand(deck_id)}>Draw Cards</button>
+      <button onClick={() => dealHand(deck_id)}>Draw Cards</button>
 
-      <div className = "hand">
-        {cards.map(card =>{
-         return <Card src ={card.image}/>
+      <div className="hand">
+        {cards.map(card => {
+          console.log("Parse 1: ", parseCardValue(card));
+          return <Card src={card.image} />;
         })}
-        {dealerCards.map(card =>{
-         return <Card src ={card.image}/>
+        {dealerCards.map(card => {
+          console.log("Parse 2: ", parseCardValue(card));
+          return <Card src={card.image} />;
         })}
       </div>
     </div>
@@ -59,4 +86,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { fetchDeck,drawCard,drawDealer })(GameBoard);
+export default connect(mapStateToProps, { fetchDeck, drawCard, drawDealer })(
+  GameBoard
+);
