@@ -1,91 +1,71 @@
 import React, { useState, useEffect } from "react";
-import { fetchDeck, drawCard, drawDealer } from "../actions/index";
+import { fetchDeck, deal, playerHit, dealerHit, stand } from "../actions/index";
 import { connect } from "react-redux";
 import Card from "./Card";
 
 function GameBoard({
   fetchDeck,
-  drawCard,
-  drawDealer,
-  success,
   deck_id,
-  shuffled,
   remaining,
-  cards,
-  dealerCards
+  playerHand,
+  dealerHand,
+  deal,
+  playerHit,
+  dealerHit,
+  stand,
 }) {
-  const [playerScore, setPlayerScore] = useState(0);
-  const [dealerScore, setDealerScore] = useState(0);
+  const [playerScore, setPlayerScore] = useState();
+  const [dealerScore, setDealerScore] = useState();
 
-  const dealHand = () => {
-    drawCard(deck_id);
-    drawDealer(deck_id);
-    // parseCardValue(cards);
-    // parseCardValue(dealerCards);
+  useEffect(() => {}, []);
 
-    // console.log("Parse 1", parseCardValue(cards));
-    // console.log("Parse 2", parseCardValue(dealerCards));
-  };
-
-  const reducerFunction = (accumulator, currentValue) =>
-    accumulator + currentValue;
-
-  const parseCardValue = item => {
-    switch (item.value) {
-      case "QUEEN":
-        item.value = "10";
-        break;
-      case "KING":
-        item.value = "10";
-      case "JACK":
-        item.value = "10";
-      default:
-        return item.value;
+  const handlePlayerHit = (e) => {
+    if (playerScore > 21) {
+      console.log("no more draw");
+    } else {
+      playerHit(deck_id);
     }
-    console.log("values", item);
-    return parseInt(item);
   };
-
-  useEffect(() => {
-    console.log(cards);
-    // console.log("Parse 1", parseCardValue(cards && cards));
-    // console.log("Parse 2", parseCardValue(dealerCards && dealerCards));
-  }, []);
 
   return (
     <div>
       <h1>Game Board</h1>
-      <p>{success}</p>
-      <p>{deck_id}</p>
-      <p>{shuffled}</p>
-      <p>{remaining}</p>
-      <button onClick={() => dealHand(deck_id)}>Draw Cards</button>
+
+      <button onClick={() => deal(deck_id)}>Draw Cards</button>
+      <button onClick={() => stand(deck_id)}>Stand</button>
 
       <div className="hand">
-        {cards.map(card => {
-          console.log("Parse 1: ", parseCardValue(card));
+        {console.log(playerHand)}
+        {playerHand.map((card) => {
           return <Card src={card.image} />;
         })}
-        {dealerCards.map(card => {
-          console.log("Parse 2: ", parseCardValue(card));
+
+        <button onClick={handlePlayerHit} type="submit">
+          Player Hit
+        </button>
+
+        {dealerHand.map((card) => {
           return <Card src={card.image} />;
         })}
+        <button onClick={() => dealerHit(deck_id)} type="submit">
+          Dealer Hit
+        </button>
       </div>
     </div>
   );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    success: state.deckReducer.success,
-    deck_id: state.deckReducer.deck_id,
-    shuffled: state.deckReducer.shuffled,
-    remaining: state.deckReducer.remaining,
-    cards: state.cardReducer.cards,
-    dealerCards: state.cardReducer.dealerCards
+    dealerHand: state.dealerHand,
+    playerHand: state.playerHand,
   };
 };
 
-export default connect(mapStateToProps, { fetchDeck, drawCard, drawDealer })(
-  GameBoard
-);
+export default connect(mapStateToProps, {
+  fetchDeck,
+  deal,
+  playerHit,
+  dealerHit,
+  stand,
+})(GameBoard);

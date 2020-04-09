@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import axios from "axios";
 import TitleScreen from "./components/TitleScreen";
@@ -6,21 +6,33 @@ import GameBoard from "./components/GameBoard";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
+  const [deck_id, setDeck_id] = useState("");
+  useEffect(() => {
+    axios
+      .get("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
+      .then(res => {
+        console.log(res);
+        setDeck_id(res.data.deck_id);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
 
- 
- 
+  console.log(deck_id);
 
   return (
     <Router>
       <div className="App">
-        <Switch>
+      <TitleScreen />
+         <Switch>
           <Route exact path="/">
-            <TitleScreen />
+            
           </Route>
           <Route path="/gameboard">
-            <GameBoard />
+            <GameBoard deck_id = {deck_id}/>
           </Route>
-        </Switch>
+        </Switch> 
       </div>
     </Router>
   );
