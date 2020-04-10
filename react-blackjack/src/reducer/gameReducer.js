@@ -12,8 +12,31 @@ const initialState = {
   dealerScore: 0,
   playerHand: [],
   playerScore: 0,
-  gameStatus: gameState.PLAYING
+  gameStatus: gameState.PLAYING,
 };
+
+//Hell yeah VVVV
+export const parseScores = (cards) => {
+  const updatedScore = cards.map((item) => {
+    if (item.value === "QUEEN") {
+      return 10;
+    } else if (item.value === "KING") {
+      return 10;
+    } else if (item.value === "JACK") {
+      return 10;
+    } else if (item.value === "ACE") {
+      return 11;
+    } else {
+      return parseInt(item.value);
+    }
+  });
+  console.log(
+    "SCORE: ",
+    updatedScore.reduce((a, b) => a + b, 0)
+  );
+  return updatedScore.reduce((a, b) => a + b, 0);
+};
+//Hell yeah ^^^
 
 export const gameReducer = (state = initialState, action) => {
   switch (action.type) {
