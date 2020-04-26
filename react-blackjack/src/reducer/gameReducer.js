@@ -31,7 +31,7 @@ export const parseScores = (cards) => {
     }
   });
   console.log(
-    "SCORE: ",
+    "SCORE 1: ",
     updatedScore.reduce((a, b) => a + b, 0)
   );
   return updatedScore.reduce((a, b) => a + b, 0);
@@ -71,8 +71,8 @@ export const gameReducer = (state = initialState, action) => {
     case CHECK_SCORE:
       return {
         ...state,
-        playerScore: state.playerScore + parseScores(state.playerHand),
-        dealerScore: state.dealerScore + parseScores(state.dealerHand),
+        playerScore: parseScores(state.playerHand),
+        dealerScore: parseScores(state.dealerHand),
       };
 
     default:

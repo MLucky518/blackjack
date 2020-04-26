@@ -34,13 +34,14 @@ export const deal = (id) => (dispatch) => {
     });
 };
 
-export const playerHit = (id) => (dispatch) => {
+export const playerHit = (id) => (dispatch, getState) => {
   axios
     .get(`https://deckofcardsapi.com/api/deck/${id}/draw/?count=1`)
     .then((res) => {
       console.log("RES", res);
       dispatch({ type: PLAYER_HIT, payload: res.data.cards[0] });
       dispatch(getScore());
+      console.log("Player", getState().playerScore);
     })
     .catch((err) => {
       console.log("no card for you", err);
@@ -75,7 +76,6 @@ export const stand = (id) => (dispatch, getState) => {
         console.log("no card for you", err);
       });
   }
-  // dispatch({ type: "OUTCOME" });
 };
 
 // export const drawCard = id => dispatch => {
